@@ -130,15 +130,34 @@ std::string WordCount::makeValidWord(std::string word) {
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
 	// STUB
-	cout << endl;
+	//My understanding of this function: dump/print all the words but in alphabetical order
+	std::vector<std::string> words;
+	for (size_t i = 0; i < CAPACITY; i++){
+		for(size_t j = 0; j < table[i].size(); j++){
+			words.push_back(table[i][j].first);
+		}
+	}
+	sort(words.begin(), words.end());
+	for (const std::string &word : words){
+		cout << word << " " << getWordCount(word) << endl;
+	}
 }
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 	// STUB
-	cout << endl;
+	//My understanding: dump/print all the words in order of how many times they occur.
+	std::vector<std::pair<std::string, int>> count;
+	for (size_t i = 0; i < CAPACITY; i++){
+		for(size_t j = 0; j < table[i].size(); j++){
+			count.push_back(table[i][j]);
+		}
+	}
+	//NOT DONE YET
 }
+	
 
 void WordCount::addAllWords(std::string text) {
 	// STUB
+	//My undert
 	cout << endl;
 }
