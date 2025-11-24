@@ -130,15 +130,15 @@ std::string WordCount::makeValidWord(std::string word) {
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
 	// STUB
-	;
+	cout << endl;
 }
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 	// STUB
-	return "";
+	cout << endl;
 }
 
 void WordCount::addAllWords(std::string text) {
 	// STUB
-	return;
+	cout << endl;
 }
