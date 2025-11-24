@@ -1,7 +1,7 @@
 // WordCount.cpp
 
 #include "WordCount.h"
-
+#include <cctype> //include for iswordchar func
 using namespace std;
 
 // Default constructor
@@ -18,43 +18,119 @@ size_t WordCount::hash(std::string word) const {
 
 int WordCount::getTotalWords() const {
 	// STUB - your solution from Lab06 goes here
-	return -1;
+	int total = 0;
+	for (size_t i = 0; i < CAPACITY; i++){
+		for (size_t j = 0; j < table[i].size(); j++){
+			total += table[i][j].second;
+		}  
+	}
+	return total;
 }
 
 int WordCount::getNumUniqueWords() const {
 	// STUB - your solution from Lab06 goes here
-	return -1;
+	int total = 0;
+	for (size_t i = 0; i < CAPACITY; i++){
+		total += table[i].size();  
+	}
+	return total;
 }
 
 int WordCount::getWordCount(std::string word) const {
 	// STUB - your solution from Lab06 goes here
-	return -1;
+	std::string validWord = makeValidWord(word); //making word valid for the test cases
+	if (validWord == ""){
+		return 0; 
+	}
+	size_t index = hash(validWord);
+	const std::vector<std::pair<std::string, int>> &bucket = table[index];
+
+	for (size_t i = 0; i < bucket.size(); i++){
+		if (bucket[i].first == validWord){
+			return bucket[i].second; //return it once its found
+		}
+	}
+	return 0; 
 }
 	
 int WordCount::incrWordCount(std::string word) {
 	// STUB - your solution from Lab06 goes here
-	return -1;
+	std::string validWord = makeValidWord(word); //making word valid for the test cases
+	if (validWord == ""){
+		return 0; 
+	}
+	size_t index = hash(validWord);
+	std::vector<std::pair<std::string, int>> &bucket = table[index];
+
+    for (size_t i = 0; i < bucket.size(); i++){
+		if (bucket[i].first == validWord){
+			bucket[i].second++;
+			return bucket[i].second; //return it once its found
+		}
+	}
+	bucket.push_back(std::make_pair(validWord, 1));
+	return 1; 
 }
 
 int WordCount::decrWordCount(std::string word) {
 	// STUB - your solution from Lab06 goes here
-	return -2;
+	std::string validWord = makeValidWord(word); //making word valid for the test cases
+	if (validWord == ""){
+		return -1; 
+	}
+
+	size_t index = hash(validWord);
+	std::vector<std::pair<std::string, int>> &bucket = table[index];
+
+    for (size_t i = 0; i < bucket.size(); i++){
+		if (bucket[i].first == validWord){
+			if (bucket[i].second > 1){
+				bucket[i].second--;
+				return bucket[i].second; //return it once its found
+			}
+			bucket.erase(bucket.begin() + i);
+			return 0;
+		}
+	}
+	return -1; // if the word was never found 
 }
 
 
 bool WordCount::isWordChar(char c) {
 	// STUB - your solution from Lab06 goes here
-	return false;
+	return isalpha(c);
 }
 
 std::string WordCount::makeValidWord(std::string word) {
 	// STUB - your solution from Lab06 goes here
-	return "";
+	std::string output; 
+	for (char c : word){
+		if (isWordChar(c)){
+			output += tolower(c);
+		}
+		else if (c == '\'' || c == '-'){
+			output += c;
+		}
+	}
+	if (output == ""){
+		return "";
+	}
+
+	while (!output.empty() && (output.front() == '-' ||output.front() == '\'' )){//trim the - or ' at the beginning 
+		output.erase(output.begin());
+	}
+
+	while (!output.empty() && (output.back() == '-'||output.back() == '\'' )){ //trim the - or ' at the end
+		output.pop_back();
+	}
+	
+    return output;
 }
+
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
 	// STUB
-	return "";
+	;
 }
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
