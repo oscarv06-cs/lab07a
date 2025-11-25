@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++17 -Wall -Wextra
 
 OBJS = WordCount.o tddFuncs.o
 
-all: test01 test02 test03
+all: test01 test02 test03 test04
 
 test01: lab07Test01.o $(OBJS)
 	$(CXX) $(CXXFLAGS) -o test01 lab07Test01.o $(OBJS)
@@ -13,6 +13,9 @@ test02: lab07Test02.o $(OBJS)
 
 test03: lab07Test03.o $(OBJS)
 	$(CXX) $(CXXFLAGS) -o test03 lab07Test03.o $(OBJS)
+
+test04: lab07Test04.o $(OBJS)
+	$(CXX) $(CXXFLAGS) -o test04 lab07Test01.o $(OBJS)
 
 WordCount.o: WordCount.cpp WordCount.h
 	$(CXX) $(CXXFLAGS) -c WordCount.cpp
@@ -28,6 +31,9 @@ lab07Test02.o: lab07Test02.cpp WordCount.h tddFuncs.h
 
 lab07Test03.o: lab07Test03.cpp WordCount.h tddFuncs.h
 	$(CXX) $(CXXFLAGS) -c lab07Test03.cpp
+
+lab07Test04.o: lab07Test04.cpp WordCount.h tddFuncs.h
+	$(CXX) $(CXXFLAGS) -c lab07Test04.cpp
 
 clean:
 	rm -f *.o test01 test02 test03
