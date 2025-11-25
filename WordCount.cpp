@@ -2,6 +2,8 @@
 
 #include "WordCount.h"
 #include <cctype> //include for iswordchar func
+#include <algorithm> //for sort
+#include <sstream> //for istringstream
 using namespace std;
 
 // Default constructor
@@ -139,7 +141,7 @@ void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
 	}
 	sort(words.begin(), words.end());
 	for (const std::string &word : words){
-		cout << word << " " << getWordCount(word) << endl;
+		out << word << " " << getWordCount(word) << endl;
 	}
 }
 
@@ -152,12 +154,24 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 			count.push_back(table[i][j]);
 		}
 	}
-	//NOT DONE YET
+	sort(count.begin(), count.end(), [](const std::pair<std::string, int> &a, const std::pair<std::string, int> &b){
+		if (a.second == b.second){
+			return a.first < b.first; //if they are the same count then sort by words
+		}
+		return a.second < b.second; //Sort by count and return
+	});
+	for (const auto &pair : count){
+		out << pair.first << " " << pair.second << endl;
+	}
 }
 	
 
 void WordCount::addAllWords(std::string text) {
 	// STUB
-	//My undert
-	cout << endl;
+	//My understandingL: take a string of text and add each word to the hash table
+	std::istringstream iss(text);
+	std::string word;
+	while (iss >> word){
+		incrWordCount(word);
+	}
 }
